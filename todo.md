@@ -7,3 +7,4 @@
 - [x] Traducir toda la interfaz y mensajes de usuario al español latino.
 - [x] Ejecutar pruebas y compilar un APK Android verificable.
 - [x] Documentar el uso de ZIP, GitHub y la configuración inicial.
+- [x] Corregir el cierre de inicio por Firebase/App Check sin configuración privada y entregar una APK validada.
