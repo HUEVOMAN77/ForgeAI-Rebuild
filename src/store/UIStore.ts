@@ -38,8 +38,8 @@ export class UIStore {
   colorScheme: 'light' | 'dark' =
     Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
 
-  // Current selected language (default to English)
-  _language: AvailableLanguage = 'en';
+  // Current selected language. ForgeAI is delivered in Spanish Latin America.
+  _language: AvailableLanguage = 'es_419';
 
   // List of supported languages (derived from locales registry)
   get supportedLanguages(): readonly AvailableLanguage[] {
@@ -156,9 +156,11 @@ export class UIStore {
     });
   }
   get language() {
-    // If the language is not in l10n, return 'en'
-    // This can happen when the app removes a language from l10n
-    return this._language in l10n ? this._language : 'en';
+    // Migrate installations that persisted the previous English default.
+    if (this._language === 'en') {
+      return 'es_419';
+    }
+    return this._language in l10n ? this._language : 'es_419';
   }
 
   get l10n() {

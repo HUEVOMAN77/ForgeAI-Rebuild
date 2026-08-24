@@ -2,6 +2,7 @@ import _ from 'lodash';
 import dayjs from 'dayjs';
 
 import enData from './en.json';
+import es419Data from './es_419.json';
 
 import type {Translations} from './types';
 
@@ -15,6 +16,7 @@ import type {Translations} from './types';
 // script but still needs the fallback.
 const languageRegistry = {
   en: {displayName: 'English (EN)'},
+  es_419: {displayName: 'Español latinoamericano (ES-419)'},
   fa: {displayName: 'فارسی (FA)'},
   he: {displayName: 'עברית (HE)'},
   id: {displayName: 'Indonesia (ID)'},
@@ -37,6 +39,7 @@ export const supportedLanguages = Object.keys(
 
 export const languageDisplayNames: Record<AvailableLanguage, string> = {
   en: languageRegistry.en.displayName,
+  es_419: languageRegistry.es_419.displayName,
   fa: languageRegistry.fa.displayName,
   he: languageRegistry.he.displayName,
   id: languageRegistry.id.displayName,
@@ -55,11 +58,14 @@ export const languageDisplayNames: Record<AvailableLanguage, string> = {
 // ─── Lazy Loading ────────────────────────────────────────────────────
 const cache: Partial<Record<AvailableLanguage, Translations>> = {
   en: enData,
+  es_419: es419Data,
 };
 
 // Metro bundles these at build time, but JS doesn't parse them until require() is called
 function requireLanguageData(lang: AvailableLanguage): object | null {
   switch (lang) {
+    case 'es_419':
+      return es419Data;
     case 'fa':
       return require('./fa.json');
     case 'he':
@@ -114,6 +120,9 @@ export function _testGetCacheKeys(): string[] {
 export const l10n = {
   get en(): Translations {
     return enData;
+  },
+  get es_419(): Translations {
+    return getTranslations('es_419');
   },
   get fa(): Translations {
     return getTranslations('fa');
@@ -178,6 +187,7 @@ export function t(
 export const initLocale = (locale?: AvailableLanguage) => {
   const locales: Record<AvailableLanguage, unknown> = {
     en: require('dayjs/locale/en'),
+    es_419: require('dayjs/locale/es'),
     fa: require('dayjs/locale/fa'),
     he: require('dayjs/locale/he'),
     id: require('dayjs/locale/id'),
