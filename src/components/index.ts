@@ -24,6 +24,7 @@ export * from './FileMessage';
 export * from './HeaderRight';
 export * from './HeaderLeft';
 export * from './HFTokenSheet';
+export * from './GitHubTokenSheet';
 export * from './SearchProviderKeySheet';
 export * from './IncreaseContextSheet';
 export * from './GreetingBubble';

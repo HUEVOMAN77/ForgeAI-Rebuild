@@ -3,10 +3,15 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "org.jetbrains.kotlin.kapt"
 apply plugin: "com.facebook.react"
 
-// Add the Google Services plugin dependency
-// This is used exclusively for sending benchmarks (with user consent) to Hugging Face Spaces via Firebase.
-// Firebase is used for App Check functionality, allowing unauthenticated users to submit their benchmark data securely.
-apply plugin: "com.google.gms.google-services"
+// Firebase/App Check is used only by the optional benchmark-submission flow.
+// The private google-services.json is intentionally not versioned. Keep local and
+// public builds functional when that optional configuration is unavailable.
+def googleServicesConfig = file("google-services.json")
+if (googleServicesConfig.exists()) {
+    apply plugin: "com.google.gms.google-services"
+} else {
+    println "Firebase configuration not found; benchmark submission is disabled for this build"
+}
 
 apply from: "../../node_modules/react-native-config/android/dotenv.gradle"
 
@@ -243,4 +248,3 @@ project.ext.vectoricons = [
 ]
 
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
-

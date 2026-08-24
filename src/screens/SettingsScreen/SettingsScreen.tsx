@@ -40,6 +40,7 @@ import {
   Menu,
   Divider,
   HFTokenSheet,
+  GitHubTokenSheet,
   LanguageSelector,
   SearchProviderKeySheet,
   InputSlider,
@@ -54,6 +55,7 @@ import {
   modelStore,
   uiStore,
   hfStore,
+  githubStore,
   ttsStore,
   searchProviderStore,
 } from '../../store';
@@ -66,6 +68,7 @@ import {
   clearAllSessionCaches,
   getSessionCacheInfo,
 } from '../../utils';
+import {createAllChatSessionsBackupFile} from '../../utils/zipExportUtils';
 import {t} from '../../locales';
 import {checkGpuSupport} from '../../utils/deviceCapabilities';
 import {exportLegacyChatSessions} from '../../utils/exportUtils';
@@ -97,6 +100,12 @@ export const SettingsScreen: React.FC = observer(() => {
   const draftValueCacheMenu = useMenuAnchor();
   const [showDraftModelMenu, setShowDraftModelMenu] = useState(false);
   const [showHfTokenDialog, setShowHfTokenDialog] = useState(false);
+  const [showGitHubTokenDialog, setShowGitHubTokenDialog] = useState(false);
+  const [showGitHubRepositoryMenu, setShowGitHubRepositoryMenu] = useState(false);
+  const [githubRepositoryAnchor, setGitHubRepositoryAnchor] = useState({
+    x: 0,
+    y: 0,
+  });
   const [showSearchProviderMenu, setShowSearchProviderMenu] = useState(false);
   const [searchProviderAnchor, setSearchProviderAnchor] = useState<{
     x: number;
@@ -104,6 +113,7 @@ export const SettingsScreen: React.FC = observer(() => {
   }>({x: 0, y: 0});
   const [showSearchKeySheet, setShowSearchKeySheet] = useState(false);
   const searchProviderButtonRef = useRef<View>(null);
+  const githubRepositoryButtonRef = useRef<View>(null);
   const [gpuSupported, setGpuSupported] = useState(false);
   const [draftModelAnchor, setDraftModelAnchor] = useState<{
     x: number;
@@ -345,6 +355,61 @@ export const SettingsScreen: React.FC = observer(() => {
         setSearchProviderAnchor({x: pageX, y: pageY + height});
         setShowSearchProviderMenu(true);
       },
+    );
+  };
+
+  const handleGitHubRepositoryPress = async () => {
+    try {
+      await githubStore.loadRepositories();
+      githubRepositoryButtonRef.current?.measure(
+        (x, y, width, height, pageX, pageY) => {
+          setGitHubRepositoryAnchor({x: pageX, y: pageY + height});
+          setShowGitHubRepositoryMenu(true);
+        },
+      );
+    } catch (error) {
+      Alert.alert(
+        l10n.settings.githubTitle,
+        error instanceof Error
+          ? error.message
+          : 'No se pudieron cargar los repositorios.',
+      );
+    }
+  };
+
+  const handleGitHubBackupUpload = () => {
+    if (!githubStore.selectedRepository) {
+      Alert.alert(l10n.settings.githubTitle, l10n.settings.githubNoRepository);
+      return;
+    }
+    Alert.alert(
+      l10n.settings.githubUploadConfirmTitle,
+      l10n.settings.githubUploadConfirmMessage,
+      [
+        {text: l10n.common.cancel, style: 'cancel'},
+        {
+          text: l10n.settings.githubUploadBackup,
+          onPress: async () => {
+            try {
+              const backup = await createAllChatSessionsBackupFile();
+              await githubStore.uploadBackup(backup.path, backup.filename);
+              Alert.alert(
+                l10n.settings.githubUploadSuccessTitle,
+                t(l10n.settings.githubUploadSuccessMessage, {
+                  repository: githubStore.selectedRepositoryFullName ?? '',
+                }),
+              );
+            } catch (error) {
+              Alert.alert(
+                l10n.settings.githubUploadErrorTitle,
+                error instanceof Error
+                  ? error.message
+                  : 'No se pudo subir el respaldo.',
+              );
+            }
+          },
+        },
+      ],
     );
   };
 
@@ -1372,6 +1437,106 @@ export const SettingsScreen: React.FC = observer(() => {
                     onValueChange={value => hfStore.setUseHfToken(value)}
                   />
                 </View>
+                <Divider style={styles.divider} />
+                <View style={styles.switchContainer}>
+                  <View style={styles.textContainer}>
+                    <Text variant="titleMedium" style={styles.textLabel}>
+                      {l10n.settings.githubTitle}
+                    </Text>
+                    <Text variant="labelSmall" style={styles.textDescription}>
+                      {githubStore.isConnected && githubStore.user
+                        ? t(l10n.settings.githubConnected, {
+                            login: githubStore.user.login,
+                          })
+                        : l10n.settings.githubDisconnected}
+                    </Text>
+                  </View>
+                  <Button
+                    testID="github-connect-button"
+                    mode="outlined"
+                    onPress={() => setShowGitHubTokenDialog(true)}
+                    style={styles.menuButton}>
+                    {githubStore.isConnected
+                      ? l10n.settings.githubUpdateConnection
+                      : l10n.settings.githubConnect}
+                  </Button>
+                </View>
+                {githubStore.isConnected && (
+                  <>
+                    <Divider style={styles.divider} />
+                    <View style={styles.switchContainer}>
+                      <View style={styles.textContainer}>
+                        <Text variant="titleMedium" style={styles.textLabel}>
+                          {l10n.settings.githubRepository}
+                        </Text>
+                        <Text
+                          variant="labelSmall"
+                          style={styles.textDescription}>
+                          {githubStore.selectedRepositoryFullName ??
+                            l10n.settings.githubNoRepository}
+                        </Text>
+                      </View>
+                      <View style={styles.menuContainer}>
+                        <Button
+                          ref={githubRepositoryButtonRef}
+                          testID="github-repository-button"
+                          mode="outlined"
+                          loading={githubStore.isLoading}
+                          onPress={handleGitHubRepositoryPress}
+                          style={styles.menuButton}>
+                          {githubStore.selectedRepositoryFullName ??
+                            l10n.settings.githubChooseRepository}
+                        </Button>
+                        <Menu
+                          visible={showGitHubRepositoryMenu}
+                          onDismiss={() => setShowGitHubRepositoryMenu(false)}
+                          anchor={githubRepositoryAnchor}
+                          selectable>
+                          {githubStore.repositories.map(repository => (
+                            <Menu.Item
+                              key={repository.id}
+                              label={repository.full_name}
+                              selected={
+                                repository.full_name ===
+                                githubStore.selectedRepositoryFullName
+                              }
+                              onPress={() => {
+                                githubStore.selectRepository(
+                                  repository.full_name,
+                                );
+                                setShowGitHubRepositoryMenu(false);
+                              }}
+                            />
+                          ))}
+                        </Menu>
+                      </View>
+                    </View>
+                    <Divider style={styles.divider} />
+                    <View style={styles.switchContainer}>
+                      <View style={styles.textContainer}>
+                        <Text variant="titleMedium" style={styles.textLabel}>
+                          {l10n.settings.githubUploadBackup}
+                        </Text>
+                        <Text
+                          variant="labelSmall"
+                          style={styles.textDescription}>
+                          {l10n.settings.githubUploadBackupDescription}
+                        </Text>
+                      </View>
+                      <Button
+                        testID="github-upload-backup-button"
+                        mode="outlined"
+                        disabled={
+                          !githubStore.selectedRepository || githubStore.isLoading
+                        }
+                        loading={githubStore.isLoading}
+                        onPress={handleGitHubBackupUpload}
+                        style={styles.menuButton}>
+                        {l10n.settings.githubUploadBackup}
+                      </Button>
+                    </View>
+                  </>
+                )}
               </View>
             </Card.Content>
           </Card>
@@ -1519,6 +1684,11 @@ export const SettingsScreen: React.FC = observer(() => {
         isVisible={showHfTokenDialog}
         onDismiss={() => setShowHfTokenDialog(false)}
         onSave={() => setShowHfTokenDialog(false)}
+      />
+      <GitHubTokenSheet
+        isVisible={showGitHubTokenDialog}
+        onDismiss={() => setShowGitHubTokenDialog(false)}
+        onSave={() => setShowGitHubTokenDialog(false)}
       />
       <SearchProviderKeySheet
         isVisible={showSearchKeySheet}
