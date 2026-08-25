@@ -263,6 +263,16 @@ export const ChatInput = observer(
         Alert.alert(
           l10n.components.chatInput.imageRequiresVisionTitle,
           l10n.components.chatInput.imageRequiresVisionMessage,
+          [
+            {
+              text: l10n.common.cancel,
+              style: 'cancel',
+            },
+            {
+              text: l10n.components.chatInput.viewVisionModels,
+              onPress: () => navigation.navigate(ROUTES.MODELS),
+            },
+          ],
         );
         setShowImageUploadMenu(false);
         return;

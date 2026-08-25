@@ -86,57 +86,29 @@ export const createStyles = (theme: Theme, insets: EdgeInsets) =>
       borderWidth: 1,
       borderColor: theme.colors.surfaceVariant,
     },
-    orText: {
-      ...theme.fonts.bodyMedium,
-      color: theme.colors.onSurfaceVariant,
-      textAlign: 'center',
-      marginVertical: theme.spacing.default,
-      opacity: 0.7,
-    },
-    supportButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: theme.colors.primary,
+    creditsOwnerCard: {
+      marginTop: theme.spacing.default / 2,
       padding: theme.spacing.default,
       borderRadius: theme.borders.default,
-      gap: theme.spacing.default / 2,
-      shadowColor: theme.colors.primary,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 2,
+      backgroundColor: theme.colors.primaryContainer,
+      borderWidth: 1,
+      borderColor: theme.colors.secondary,
     },
-    supportButtonText: {
-      ...theme.fonts.titleMedium,
-      color: theme.colors.onPrimary,
-      letterSpacing: 0.5,
-    },
-    feedbackButtonContent: {
-      flexDirection: 'row-reverse',
-    },
-    feedbackForm: {
-      padding: theme.spacing.default,
-    },
-    field: {
-      marginBottom: theme.spacing.default,
-    },
-    label: {
+    creditsOwnerLabel: {
       ...theme.fonts.labelMedium,
-      color: theme.colors.onSurface,
-      marginBottom: theme.spacing.default / 2,
+      color: theme.colors.onPrimaryContainer,
+      opacity: 0.72,
     },
-    segmentedButtons: {
+    creditsOwnerName: {
+      ...theme.fonts.titleLarge,
+      color: theme.colors.onPrimaryContainer,
+      marginTop: 2,
+    },
+    creditsBaseLabel: {
+      ...theme.fonts.bodySmall,
+      color: theme.colors.onPrimaryContainer,
       marginTop: theme.spacing.default / 2,
-    },
-    submitButton: {
-      marginTop: theme.spacing.default,
-    },
-    secondaryButtons: {
-      flexDirection: 'row',
+      opacity: 0.78,
     },
     legalRow: {
       flexDirection: 'row',
