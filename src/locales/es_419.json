@@ -131,7 +131,7 @@
     "importError": "No se pudieron importar las sesiones de chat. Verifica el formato del archivo.",
     "internetSearch": {
       "title": "Búsqueda en Internet",
-      "description": "Permite que Pals busquen en la web con sus propias herramientas. Trae tu propia clave API — PocketPal nunca guarda tus claves ni redirige tus consultas.",
+      "description": "Permite que Pals busquen en la web con sus propias herramientas. Trae tu propia clave API — CodeForce nunca guarda tus claves ni redirige tus consultas.",
       "providerLabel": "Proveedor de búsqueda",
       "providerGated": "Próximamente",
       "keyLabel": "Clave API",
@@ -147,7 +147,7 @@
       "resultCountLabel": "Resultados por búsqueda",
       "resultCountDescription": "Menos resultados dejan más espacio en el contexto del modelo.",
       "consentTitle": "Las búsquedas salen de tu dispositivo",
-      "consentDescription": "Cuando un Pal busca en la web, tu consulta se envía al proveedor seleccionado a través de internet. Cuando un Pal lee una página, la URL y el contenido de la página pueden, en su lugar, ser enviados a un servicio lector predeterminado (r.jina.ai) si el proveedor seleccionado no tiene un lector nativo. Las claves y las consultas nunca se envían a PocketPal.",
+      "consentDescription": "Cuando un Pal busca en la web, tu consulta se envía al proveedor seleccionado a través de internet. Cuando un Pal lee una página, la URL y el contenido de la página pueden, en su lugar, ser enviados a un servicio lector predeterminado (r.jina.ai) si el proveedor seleccionado no tiene un lector nativo. Las claves y las consultas nunca se envían a CodeForce.",
       "consentAccept": "Entiendo",
       "consentRequired": "Acepta el aviso anterior para establecer una clave y habilitar la búsqueda.",
       "consentGivenTitle": "La búsqueda en la web está habilitada",
@@ -523,7 +523,7 @@
     "screenTitle": "Información de la aplicación",
     "description": "Una aplicación que lleva modelos de lenguaje directamente a tu teléfono. Se basa en llama.cpp y llama.rn.",
     "supportProject": "Apoya el proyecto",
-    "supportProjectDescription": "Si te gusta usar PocketPal AI, por favor considera apoyar el proyecto:",
+    "supportProjectDescription": "Si te gusta usar CodeForce, por favor considera apoyar el proyecto:",
     "githubButton": "Dale una estrella en GitHub",
     "orText": "o",
     "orBy": "o mediante",
@@ -531,17 +531,17 @@
     "versionCopiedTitle": "Versión copiada",
     "versionCopiedDescription": "La información de la versión se ha copiado al portapapeles",
     "tour": "Recorrido",
-    "tourDescription": "Volver a mostrar las pantallas de bienvenida para ver lo que ofrece PocketPal AI.",
+    "tourDescription": "Volver a mostrar las pantallas de bienvenida para ver lo que ofrece CodeForce.",
     "showIntroButton": "Mostrar la introducción otra vez",
     "privacyPolicy": "Política de privacidad",
     "termsOfService": "Términos de servicio"
   },
   "feedback": {
     "title": "Enviar comentarios",
-    "description": "¡Tu opinión importa! Cuéntanos cómo PocketPal AI te está ayudando y qué podemos hacer para que sea aún más útil.",
+    "description": "¡Tu opinión importa! Cuéntanos cómo CodeForce te está ayudando y qué podemos hacer para que sea aún más útil.",
     "shareThoughtsButton": "Comparte tus comentarios",
     "useCase": {
-      "label": "¿Para qué estás usando PocketPal AI?",
+      "label": "¿Para qué estás usando CodeForce?",
       "placeholder": "p. ej., resúmenes, juegos de rol, etc."
     },
     "featureRequests": {
@@ -553,7 +553,7 @@
       "placeholder": "Comparte cualquier otro comentario que tengas."
     },
     "usageFrequency": {
-      "label": "¿Con qué frecuencia usas PocketPal AI? (Opcional)",
+      "label": "¿Con qué frecuencia usas CodeForce? (Opcional)",
       "options": {
         "daily": "Diario",
         "weekly": "Semanal",
@@ -622,7 +622,7 @@
     },
     "chatEmptyPlaceholder": {
       "noModelsTitle": "No hay modelos disponibles",
-      "noModelsDescription": "Descarga un modelo para empezar a chatear con PocketPal",
+      "noModelsDescription": "Descarga un modelo para empezar a chatear con CodeForce",
       "noModelsButton": "Descargar modelo",
       "activateModelTitle": "Activa el modelo para empezar",
       "activateModelDescription": "Selecciona el modelo y descárgalo. Después de descargarlo, toca Load junto al modelo y comienza a chatear.",
@@ -684,7 +684,7 @@
     },
     "modelErrorReportSheet": {
       "title": "Reportar problema al cargar el modelo",
-      "privacyNote": "Ayúdanos a mejorar PocketPal compartiendo detalles sobre este error. Revisa a continuación lo que se enviará: puedes desmarcar los elementos que prefieras no incluir.",
+      "privacyNote": "Ayúdanos a mejorar CodeForce compartiendo detalles sobre este error. Revisa a continuación lo que se enviará: puedes desmarcar los elementos que prefieras no incluir.",
       "errorMessage": "Mensaje de error",
       "modelInfo": "Información del modelo",
       "modelName": "Nombre",
@@ -702,7 +702,7 @@
       "submit": "Enviar informe",
       "success": {
         "title": "Informe enviado",
-        "message": "Gracias por ayudarnos a mejorar PocketPal. Tu informe nos ayudará a solucionar este problema."
+        "message": "Gracias por ayudarnos a mejorar CodeForce. Tu informe nos ayudará a solucionar este problema."
       },
       "error": {
         "title": "Error al enviar el informe",
@@ -1021,6 +1021,8 @@
       }
     },
     "sidebarContent": {
+      "brandName": "CodeForce",
+      "brandTagline": "IA local para crear sin límites",
       "menuItems": {
         "chat": "Chat",
         "models": "Modelos",
@@ -1187,7 +1189,7 @@
   },
   "camera": {
     "permissionTitle": "Permiso de cámara requerido",
-    "permissionMessage": "PocketPal necesita acceso a la cámara para analizar imágenes",
+    "permissionMessage": "CodeForce necesita acceso a la cámara para analizar imágenes",
     "requestingPermission": "Solicitando permiso de cámara...",
     "noDevice": "No se encontró ningún dispositivo de cámara",
     "errorTitle": "Error de cámara",
@@ -1201,7 +1203,7 @@
   },
   "video": {
     "permissionTitle": "Permiso de cámara requerido",
-    "permissionMessage": "PocketPal necesita acceso a la cámara para analizar video",
+    "permissionMessage": "CodeForce necesita acceso a la cámara para analizar video",
     "requestingPermission": "Solicitando permiso de cámara...",
     "noDevice": "No se encontró ningún dispositivo de cámara",
     "errorTitle": "Error de cámara",
@@ -1547,14 +1549,14 @@
     "skip": "Omitir",
     "skipForNow": "Omitir por ahora",
     "splash": {
-      "brand": "PocketPal"
+      "brand": "CodeForce"
     },
     "screen1": {
       "title": "Conoce a tus amigos.",
       "titleAccent": "amigos.",
       "body": "Pequeños amigos inteligentes que viven dentro de tu teléfono.\nVamos a configurarlo: tomará un minuto.",
       "cta": "Muéstrame Around",
-      "eyebrow": "Bienvenido a PocketPal"
+      "eyebrow": "Bienvenido a CodeForce"
     },
     "screen2": {
       "title": "En cualquier momento,\nEn cualquier lugar.",

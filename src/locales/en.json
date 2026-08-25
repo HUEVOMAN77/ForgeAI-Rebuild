@@ -1021,6 +1021,8 @@
       }
     },
     "sidebarContent": {
+      "brandName": "CodeForce",
+      "brandTagline": "Local AI, built for your work",
       "menuItems": {
         "chat": "Chat",
         "models": "Models",

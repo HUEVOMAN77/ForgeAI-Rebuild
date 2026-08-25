@@ -536,6 +536,17 @@ export const SidebarContent: React.FC<DrawerContentComponentProps> = observer(
     const ListHeaderComponent = React.useMemo(
       () => (
         <View>
+          <View style={styles.brandHeader}>
+            <View style={styles.brandAccent} />
+            <View style={styles.brandCopy}>
+              <Text style={styles.brandName}>
+                {l10n.components.sidebarContent.brandName}
+              </Text>
+              <Text style={styles.brandTagline}>
+                {l10n.components.sidebarContent.brandTagline}
+              </Text>
+            </View>
+          </View>
           <Drawer.Section showDivider={false}>
             <Drawer.Item
               label={l10n.components.sidebarContent.menuItems.chat}
