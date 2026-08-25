@@ -1461,6 +1461,11 @@ export const SettingsScreen: React.FC = observer(() => {
                       : l10n.settings.githubConnect}
                   </Button>
                 </View>
+                {githubStore.error && (
+                  <Text variant="labelSmall" style={styles.textDescription}>
+                    {githubStore.error}
+                  </Text>
+                )}
                 {githubStore.isConnected && (
                   <>
                     <Divider style={styles.divider} />

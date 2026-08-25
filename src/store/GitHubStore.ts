@@ -74,7 +74,15 @@ class GitHubStore {
         this.token = token;
         this.user = user;
       });
-      await this.loadRepositories();
+
+      // La autenticación y el listado de repositorios son operaciones distintas.
+      // Conservamos una cuenta ya verificada si GitHub demora o rechaza el
+      // listado, y permitimos reintentar el selector sin volver a exponer el PAT.
+      try {
+        await this.loadRepositories();
+      } catch {
+        return true;
+      }
       return true;
     } catch (error) {
       runInAction(() => {

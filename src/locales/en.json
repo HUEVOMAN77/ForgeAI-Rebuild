@@ -633,6 +633,15 @@
     },
     "chatInput": {
       "inputPlaceholder": "Message",
+      "actionsLabel": "Add photo, ZIP backup, or GitHub",
+      "takePhoto": "Take photo",
+      "chooseImages": "Choose images",
+      "exportZipBackup": "Export ZIP backup",
+      "openGitHub": "Connect or back up with GitHub",
+      "imageRequiresVisionTitle": "Vision model required",
+      "imageRequiresVisionMessage": "Load a model with image support before attaching photos.",
+      "zipExportErrorTitle": "ZIP backup error",
+      "zipExportErrorMessage": "The ZIP backup could not be created.",
       "thinkingToggle": {
         "enableThinking": "Enable thinking mode",
         "disableThinking": "Disable thinking mode",

@@ -12,6 +12,15 @@ import {render} from '../../../../jest/test-utils';
 import {palStore, chatSessionStore, modelStore} from '../../../store';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  useNavigation: () => ({navigate: jest.fn()}),
+}));
+
+jest.mock('../../../utils/zipExportUtils', () => ({
+  exportAllChatSessionsAsZip: jest.fn(),
+}));
+
 // Mock react-native-image-picker
 jest.mock('react-native-image-picker', () => ({
   launchCamera: jest.fn(),
@@ -265,7 +274,9 @@ describe('input', () => {
       </UserContext.Provider>,
     );
 
-    const plusButton = getByLabelText('Add image');
+    const plusButton = getByLabelText(
+      l10n.en.components.chatInput.actionsLabel,
+    );
     expect(plusButton).toBeDefined();
   });
 
@@ -284,7 +295,9 @@ describe('input', () => {
       </UserContext.Provider>,
     );
 
-    const plusButton = queryByLabelText('Add image');
+    const plusButton = queryByLabelText(
+      l10n.en.components.chatInput.actionsLabel,
+    );
     expect(plusButton).toBeNull();
   });
 
@@ -304,7 +317,9 @@ describe('input', () => {
       </UserContext.Provider>,
     );
 
-    const plusButton = getByLabelText('Add image');
+    const plusButton = getByLabelText(
+      l10n.en.components.chatInput.actionsLabel,
+    );
     expect(plusButton).toBeTruthy();
     expect(plusButton.props.accessibilityState.disabled).toBe(false);
   });
@@ -457,7 +472,7 @@ describe('input', () => {
     }
   });
 
-  it('disables plus button when vision is not enabled', () => {
+  it('keeps the plus button enabled when vision is not enabled', () => {
     expect.assertions(1);
     const onSendPress = jest.fn();
     const {getByLabelText} = render(
@@ -473,8 +488,10 @@ describe('input', () => {
       </UserContext.Provider>,
     );
 
-    const plusButton = getByLabelText('Add image');
-    expect(plusButton.props.accessibilityState.disabled).toBe(true);
+    const plusButton = getByLabelText(
+      l10n.en.components.chatInput.actionsLabel,
+    );
+    expect(plusButton.props.accessibilityState.disabled).toBe(false);
   });
 
   it('enables plus button when vision is enabled', () => {
@@ -493,7 +510,9 @@ describe('input', () => {
       </UserContext.Provider>,
     );
 
-    const plusButton = getByLabelText('Add image');
+    const plusButton = getByLabelText(
+      l10n.en.components.chatInput.actionsLabel,
+    );
     expect(plusButton.props.accessibilityState.disabled).toBe(false);
   });
 
@@ -568,10 +587,12 @@ describe('input', () => {
               sendButtonVisibilityMode: 'editing',
             }}
           />
-        </UserContext.Provider>,
-      );
+      </UserContext.Provider>,
+    );
 
-      const plusButton = getByLabelText('Add image');
+      const plusButton = getByLabelText(
+        l10n.en.components.chatInput.actionsLabel,
+      );
       fireEvent.press(plusButton);
 
       // Menu should be visible after pressing plus button
@@ -598,7 +619,9 @@ describe('input', () => {
         </UserContext.Provider>,
       );
 
-      const plusButton = getByLabelText('Add image');
+      const plusButton = getByLabelText(
+        l10n.en.components.chatInput.actionsLabel,
+      );
       fireEvent.press(plusButton);
 
       // Since testing the menu interaction is complex, let's test that the camera function works
@@ -628,7 +651,9 @@ describe('input', () => {
         </UserContext.Provider>,
       );
 
-      const plusButton = getByLabelText('Add image');
+      const plusButton = getByLabelText(
+        l10n.en.components.chatInput.actionsLabel,
+      );
       fireEvent.press(plusButton);
 
       // Test that the component renders correctly even when camera errors are configured
@@ -656,7 +681,9 @@ describe('input', () => {
         </UserContext.Provider>,
       );
 
-      const plusButton = getByLabelText('Add image');
+      const plusButton = getByLabelText(
+        l10n.en.components.chatInput.actionsLabel,
+      );
       fireEvent.press(plusButton);
 
       // Test that the component renders correctly with image library functionality

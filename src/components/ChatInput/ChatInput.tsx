@@ -12,6 +12,7 @@ import {
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {useCameraPermission} from 'react-native-vision-camera';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {useNavigation} from '@react-navigation/native';
 
 import {observer} from 'mobx-react';
 import {IconButton, Text} from 'react-native-paper';
@@ -33,6 +34,8 @@ import {chatSessionStore, modelStore, palStore, uiStore} from '../../store';
 
 import {MessageType} from '../../utils/types';
 import {L10nContext, UserContext} from '../../utils';
+import {ROUTES} from '../../utils/navigationConstants';
+import {exportAllChatSessionsAsZip} from '../../utils/zipExportUtils';
 import {t} from '../../locales';
 
 import {SendButton, StopButton, Menu, VoiceChip} from '..';
@@ -147,6 +150,7 @@ export const ChatInput = observer(
     const l10n = React.useContext(L10nContext);
     const theme = useTheme();
     const user = React.useContext(UserContext);
+    const navigation = useNavigation<any>();
     const inputRef = React.useRef<TextInput>(null);
     const editBarHeight = React.useRef(new Animated.Value(0)).current;
     const iconRotation = React.useRef(new Animated.Value(0)).current;
@@ -252,6 +256,37 @@ export const ChatInput = observer(
     // Handle plus button press to show image upload menu
     const handlePlusButtonPress = () => {
       setShowImageUploadMenu(true);
+    };
+
+    const runImageAction = (action: () => Promise<void>) => {
+      if (!isVisionEnabled) {
+        Alert.alert(
+          l10n.components.chatInput.imageRequiresVisionTitle,
+          l10n.components.chatInput.imageRequiresVisionMessage,
+        );
+        setShowImageUploadMenu(false);
+        return;
+      }
+      void action();
+    };
+
+    const handleExportZipBackup = async () => {
+      try {
+        await exportAllChatSessionsAsZip();
+      } catch (error) {
+        console.error('Error exporting ZIP backup:', error);
+        Alert.alert(
+          l10n.components.chatInput.zipExportErrorTitle,
+          l10n.components.chatInput.zipExportErrorMessage,
+        );
+      } finally {
+        setShowImageUploadMenu(false);
+      }
+    };
+
+    const handleOpenGitHubSettings = () => {
+      setShowImageUploadMenu(false);
+      navigation.navigate(ROUTES.SETTINGS);
     };
 
     // Need to figure this out:
@@ -362,7 +397,7 @@ export const ChatInput = observer(
     const onSurfaceColor = currentActivePal?.color?.[0] || theme.colors.text;
     const onSurfaceColorVariant = onSurfaceColor + '55'; // for disabled state or placeholder text
     // // Plus button state
-    const isPlusButtonEnabled = !isStreaming && isVisionEnabled;
+    const isPlusButtonEnabled = !isStreaming;
     const plusColor = isPlusButtonEnabled
       ? onSurfaceColor
       : onSurfaceColorVariant;
@@ -491,7 +526,7 @@ export const ChatInput = observer(
           <View style={styles.controlBar}>
             {/* Left Controls */}
             <View style={styles.leftControls}>
-              {/* Plus Button for Image Upload (only for regular chat) */}
+              {/* Plus Button for visible chat actions (only for regular chat) */}
               {showImageUpload && !isVideoCapable && (
                 <Menu
                   visible={showImageUploadMenu}
@@ -504,20 +539,30 @@ export const ChatInput = observer(
                       onPress={
                         isPlusButtonEnabled ? handlePlusButtonPress : () => {}
                       }
-                      accessibilityLabel="Add image"
+                      accessibilityLabel={l10n.components.chatInput.actionsLabel}
                       accessibilityRole="button">
                       <PlusIcon width={20} height={20} stroke={plusColor} />
                     </TouchableOpacity>
                   }>
                   <Menu.Item
-                    label={l10n.camera?.takePhoto || 'Camera'}
+                    label={l10n.components.chatInput.takePhoto}
                     icon="camera"
-                    onPress={handleTakePhoto}
+                    onPress={() => runImageAction(handleTakePhoto)}
                   />
                   <Menu.Item
-                    label={l10n.common?.gallery || 'Gallery'}
+                    label={l10n.components.chatInput.chooseImages}
                     icon="image"
-                    onPress={handleSelectImages}
+                    onPress={() => runImageAction(handleSelectImages)}
+                  />
+                  <Menu.Item
+                    label={l10n.components.chatInput.exportZipBackup}
+                    icon="archive-arrow-up-outline"
+                    onPress={() => void handleExportZipBackup()}
+                  />
+                  <Menu.Item
+                    label={l10n.components.chatInput.openGitHub}
+                    icon="github"
+                    onPress={handleOpenGitHubSettings}
                   />
                 </Menu>
               )}

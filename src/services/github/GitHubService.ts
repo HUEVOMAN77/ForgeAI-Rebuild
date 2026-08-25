@@ -1,5 +1,7 @@
 const API_BASE = 'https://api.github.com';
-const API_VERSION = '2026-03-10';
+// GitHub's currently supported REST API version. A future, unsupported date
+// can make valid personal access tokens appear to fail authentication.
+const API_VERSION = '2022-11-28';
 
 export interface GitHubUser {
   login: string;
@@ -24,6 +26,25 @@ const headers = (token: string) => ({
   'X-GitHub-Api-Version': API_VERSION,
 });
 
+const explainGitHubError = (
+  status: number,
+  detail?: string,
+): string => {
+  if (status === 401) {
+    return 'GitHub rechazó el token. Revísalo, confirma que no haya expirado y vuelve a intentarlo.';
+  }
+  if (status === 403) {
+    return 'GitHub denegó el acceso. En un token de granularidad fina, habilita el repositorio y el permiso Contents para leer y escribir.';
+  }
+  if (status === 404) {
+    return 'GitHub no encontró el recurso. Verifica que el token tenga acceso al repositorio seleccionado.';
+  }
+  if (status === 422) {
+    return 'GitHub rechazó la solicitud. Verifica el repositorio, el nombre del archivo y los permisos del token.';
+  }
+  return detail || `GitHub respondió con el estado ${status}.`;
+};
+
 const request = async <T>(
   token: string,
   path: string,
@@ -34,10 +55,15 @@ const request = async <T>(
     headers: {...headers(token), ...(options.headers ?? {})},
   });
   const raw = await response.text();
-  const body = raw ? JSON.parse(raw) : undefined;
+  let body: unknown;
+  try {
+    body = raw ? JSON.parse(raw) : undefined;
+  } catch {
+    body = undefined;
+  }
   if (!response.ok) {
     const detail = (body as GitHubApiError | undefined)?.message;
-    throw new Error(detail || `GitHub respondió con el estado ${response.status}.`);
+    throw new Error(explainGitHubError(response.status, detail));
   }
   return body as T;
 };

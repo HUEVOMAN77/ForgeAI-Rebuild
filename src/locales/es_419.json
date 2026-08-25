@@ -633,6 +633,15 @@
     },
     "chatInput": {
       "inputPlaceholder": "Mensaje",
+      "actionsLabel": "Agregar foto, respaldo ZIP o GitHub",
+      "takePhoto": "Tomar foto",
+      "chooseImages": "Elegir imágenes",
+      "exportZipBackup": "Exportar respaldo ZIP",
+      "openGitHub": "Conectar o respaldar con GitHub",
+      "imageRequiresVisionTitle": "Se necesita un modelo con visión",
+      "imageRequiresVisionMessage": "Cargá un modelo compatible con imágenes antes de adjuntar fotos.",
+      "zipExportErrorTitle": "Error al crear el respaldo ZIP",
+      "zipExportErrorMessage": "No se pudo crear el respaldo ZIP.",
       "thinkingToggle": {
         "enableThinking": "Activar modo de pensamiento",
         "disableThinking": "Desactivar modo de pensamiento",
