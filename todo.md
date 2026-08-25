@@ -17,4 +17,4 @@
 - [x] Validar y publicar una APK de CodeForce con el icono de arranque corregido.
 - [x] Sustituir la sección de apoyo por créditos de Huevoman77 y la atribución del fork basado en PocketPal.
 - [x] Guiar desde el adjunto de imágenes hacia la descarga o activación de un modelo con visión compatible.
-- [ ] Validar y publicar la APK con los flujos de compatibilidad corregidos.
+- [x] Validar y publicar la APK con los flujos de compatibilidad corregidos.
