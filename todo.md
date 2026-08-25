@@ -13,3 +13,5 @@
 - [x] Actualizar el nombre visible y los recursos de marca a CodeForce.
 - [x] Aplicar una paleta neón elegante y un rediseño moderno sin cambiar funciones.
 - [x] Validar, compilar y publicar la APK renovada de CodeForce.
+- [x] Reemplazar el icono antiguo de la pantalla de bienvenida y del lanzador por el icono de CodeForce.
+- [ ] Validar y publicar una APK de CodeForce con el icono de arranque corregido.
