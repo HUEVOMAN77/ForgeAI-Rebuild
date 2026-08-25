@@ -8,4 +8,4 @@
 - [x] Compilar una APK desde la base limpia y verificarla antes de entregarla.
 - [x] Hacer visible y funcional el botón de adjuntar para imágenes y acciones ZIP dentro del chat.
 - [x] Hacer visible y funcional el flujo de conexión y respaldo en GitHub desde la interfaz.
-- [ ] Validar y entregar una APK con los flujos visibles corregidos.
+- [x] Validar y entregar una APK con los flujos visibles corregidos.
