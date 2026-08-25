@@ -12,4 +12,4 @@
 - [x] Crear un icono propio de CodeForce con estilo neón elegante.
 - [x] Actualizar el nombre visible y los recursos de marca a CodeForce.
 - [x] Aplicar una paleta neón elegante y un rediseño moderno sin cambiar funciones.
-- [ ] Validar, compilar y publicar la APK renovada de CodeForce.
+- [x] Validar, compilar y publicar la APK renovada de CodeForce.
